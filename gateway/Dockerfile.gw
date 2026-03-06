@@ -1,0 +1,12 @@
+FROM alpine:latest
+
+RUN apk add --no-cache bash ca-certificates curl git jq openssl
+
+RUN curl -fsSL https://raw.githubusercontent.com/agentgateway/agentgateway/refs/heads/main/common/scripts/get-agentgateway | bash
+
+WORKDIR /etc/agentgateway
+COPY config.yml /etc/agentgateway/config.yaml
+
+EXPOSE 3000 15000 15020 15021
+
+ENTRYPOINT ["/usr/local/bin/agentgateway","-f","/etc/agentgateway/config.yaml"]

@@ -1,0 +1,25 @@
+config:
+  adminAddr: "0.0.0.0:15000"
+  statsAddr: "0.0.0.0:15020"
+  readinessAddr: "0.0.0.0:15021"
+
+binds:
+  - port: 3000
+    listeners:
+      - routes:
+          - name: openai-proxy
+            matches:
+              - path:
+                  pathPrefix: /openai/v1
+            policies:
+              backendAuth:
+                key: "$OPENAI_API_KEY"
+              cors:
+                allowOrigins: ["*"]
+                allowHeaders: ["*"]
+            backends:
+              - ai:
+                  name: openai
+                  provider:
+                    openAI:
+                      model: "$OPENAI_MODEL"

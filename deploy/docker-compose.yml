@@ -1,0 +1,30 @@
+services:
+  gateway:
+    build:
+      context: ../gateway
+      dockerfile: Dockerfile.gw
+    ports:
+      - "3000:3000"
+      - "15000:15000"
+      - "15020:15020"
+      - "15021:15021"
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  webapp:
+    build:
+      context: ..
+      dockerfile: deploy/webapp.Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - GATEWAY_URL=http://gateway:3000
+    volumes:
+      - ../webapp/src:/app/webapp/src
+      - ../webapp/public:/app/webapp/public
+      - ../webapp/index.html:/app/webapp/index.html
+      - ../webapp/vite.config.ts:/app/webapp/vite.config.ts
+    depends_on:
+      - gateway
+    restart: unless-stopped
