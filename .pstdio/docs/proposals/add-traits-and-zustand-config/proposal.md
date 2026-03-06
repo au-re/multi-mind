@@ -5,7 +5,7 @@
 
 ## Summary
 
-Create the `packages/traits` library with trait types, the 9-trait roster, and prompt builders. Add Zustand as the webapp state management layer with stores for trait configuration.
+Create the `packages/traits` library with trait types, the 9-trait roster, and prompt builders. Add Zustand as the webapp state management layer with stores for trait configuration. Add a read-only trait display panel showing all 9 traits.
 
 ## Context
 
@@ -21,6 +21,7 @@ Create the `packages/traits` library with trait types, the 9-trait roster, and p
 
 1. **`packages/traits`** — shared library with types, default roster, and prompt fragment builders
 2. **Zustand stores** — in the webapp, managing trait configs and character state
+3. **Trait display panel** — read-only UI component showing all 9 traits and their skill levels
 
 ## Proposed Changes
 
@@ -83,7 +84,29 @@ Minimal placeholder store for character voice profile. Will be expanded in a fut
 State:
 - `characterVoice: CharacterVoiceProfile` — from spec 09 section 3
 
-### 3. Persistence (V1)
+### 3. Trait Display Panel
+
+Read-only panel that visualizes the current character's 9 traits.
+
+```
+webapp/src/features/traits/
+  components/
+    trait-display-panel.tsx    # Panel showing all 9 traits with skill levels
+    trait-bar.tsx              # Single trait bar displaying name and skill level
+```
+
+#### `trait-display-panel.tsx`
+
+Reads from the trait Zustand store and renders all 9 traits as a compact list. Each trait shows its name and skill level via `trait-bar.tsx`. No editing — display only.
+
+#### `trait-bar.tsx`
+
+Displays a single trait with:
+- Trait label
+- Skill level (0-20) as a horizontal bar or badge
+- Visual intensity mapped to skill level
+
+### 4. Persistence (V1)
 
 Trait configs are stored in-memory via Zustand. No persistence layer in this proposal — that will come with the workspace/OPFS integration. The store provides `setTraits()` for loading and the state is serializable for future persistence.
 
@@ -104,8 +127,13 @@ Trait configs are stored in-memory via Zustand. No persistence layer in this pro
 10. Create `character-store.ts` placeholder
 11. Add unit tests for store actions and selectors
 
-### Phase 3 — Validation
-12. Run format, lint, build, test
+### Phase 3 — Trait Display Panel
+12. Create `trait-bar.tsx` component
+13. Create `trait-display-panel.tsx` component
+14. Add Storybook stories for trait display components
+
+### Phase 4 — Validation
+15. Run format, lint, build, test
 
 ## Touch Points
 
@@ -115,15 +143,13 @@ Trait configs are stored in-memory via Zustand. No persistence layer in this pro
 | Webapp dependency | `webapp/package.json` | Update (add zustand) |
 | Webapp stores | `webapp/src/stores/trait-store.ts` | Create |
 | Webapp stores | `webapp/src/stores/character-store.ts` | Create |
+| Webapp UI | `webapp/src/features/traits/` | Create |
 | Root config | `package.json` (workspace entries — already includes packages/*) | No change needed |
 
-## Open Questions
-
-- [MISSING INFORMATION] Should trait editing be locked during an active conversation round, or can users edit mid-conversation?
 
 ## Non-Goals
 
-- Trait config UI (will be a separate proposal)
+- Trait config editing UI (will be a separate proposal)
 - Engine integration (covered by the existing monorepo proposal)
 - Blackboard or memory packages
 - Braider implementation
