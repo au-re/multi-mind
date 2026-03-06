@@ -31,5 +31,10 @@ export default defineConfig({
       testDir: "./tests/webapp",
       dependencies: ["setup"],
     },
+    {
+      name: "gateway",
+      testDir: "./tests/gateway",
+      dependencies: ["setup"],
+    },
   ],
 });

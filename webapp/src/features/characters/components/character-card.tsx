@@ -13,20 +13,25 @@ export const CharacterCard = (props: CharacterCardProps) => {
   const topTraits = [...character.traits].sort((a, b) => b.skill - a.skill).slice(0, 4);
 
   return (
-    <Box borderWidth="1px" borderRadius="lg" p="4" cursor="pointer" _hover={{ bg: "bg.subtle" }}>
+    <Box
+      borderWidth="1px"
+      borderRadius="lg"
+      p="4"
+      cursor="pointer"
+      _hover={{ bg: "bg.subtle" }}
+      onClick={() => navigate({ to: "/characters/$characterId", params: { characterId: character.id } })}
+    >
       <Flex justifyContent="space-between" alignItems="center" mb="2">
-        <Text
-          fontWeight="bold"
-          fontSize="lg"
-          onClick={() => navigate({ to: "/characters/$characterId", params: { characterId: character.id } })}
-          cursor="pointer"
-        >
+        <Text fontWeight="bold" fontSize="lg">
           {character.name}
         </Text>
         <Button
           size="sm"
           variant="ghost"
-          onClick={() => navigate({ to: "/characters/$characterId/edit", params: { characterId: character.id } })}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate({ to: "/characters/$characterId/edit", params: { characterId: character.id } });
+          }}
         >
           Edit
         </Button>

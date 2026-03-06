@@ -1,6 +1,6 @@
 import { Box, Flex, Input, Text } from "@chakra-ui/react";
-import type { TraitConfig, TraitId } from "@multi-mind/traits";
-import { clampSkill } from "@multi-mind/traits";
+import type { TraitConfig, TraitId } from "@/features/traits";
+import { clampSkill } from "@/features/traits";
 
 interface TraitEditorProps {
   traits: TraitConfig[];

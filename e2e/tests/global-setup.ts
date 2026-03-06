@@ -1,8 +1,9 @@
 import { execSync } from "node:child_process";
 import { test as setup } from "@playwright/test";
 
-const COMPOSE_FILE = new URL("../../../deploy/docker-compose.yml", import.meta.url).pathname;
+const COMPOSE_FILE = new URL("../../deploy/docker-compose.yml", import.meta.url).pathname;
 const WEBAPP_URL = process.env.WEBAPP_URL ?? "http://localhost:5199";
+const GATEWAY_READINESS_URL = process.env.GATEWAY_READINESS_URL ?? "http://localhost:15021";
 
 async function waitForService(url: string, timeoutMs = 60_000) {
   const start = Date.now();
@@ -25,7 +26,7 @@ setup("start docker compose services", async () => {
     timeout: 120_000,
   });
 
-  console.log("Waiting for webapp to be ready...");
-  await waitForService(WEBAPP_URL);
+  console.log("Waiting for services to be ready...");
+  await Promise.all([waitForService(WEBAPP_URL), waitForService(GATEWAY_READINESS_URL)]);
   console.log("All services are ready.");
 });

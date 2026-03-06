@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
-import type { TraitConfig } from "@multi-mind/traits";
-import { TRAIT_CONSTRAINTS, validateSkillBudget } from "@multi-mind/traits";
+import type { TraitConfig } from "@/features/traits";
+import { TRAIT_CONSTRAINTS, validateSkillBudget } from "@/features/traits";
 
 interface BudgetIndicatorProps {
   traits: TraitConfig[];

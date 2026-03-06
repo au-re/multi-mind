@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Heading, Input } from "@chakra-ui/react";
-import type { TraitConfig, TraitId } from "@multi-mind/traits";
-import { validateSkillBudget } from "@multi-mind/traits";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useState } from "react";
+import type { TraitConfig, TraitId } from "@/features/traits";
+import { validateSkillBudget } from "@/features/traits";
 import { useCharacterListStore } from "@/stores/character-list-store";
 import { BudgetIndicator } from "../components/budget-indicator";
 import { TraitEditor } from "../components/trait-editor";

@@ -13,28 +13,19 @@
     "build": "bunx cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" lerna run build",
     "analyze-bundle": "bunx lerna run analyze-bundle --stream",
     "test": "bunx lerna run test --stream --no-prefix --ignore e2e -- --reporter dot --silent",
-    "test:e2e": "bun run --cwd packages/e2e test",
+    "test:e2e": "bun run --cwd e2e test",
     "lint": "bunx lerna run lint",
     "format": "bunx biome check --write .",
     "format:check": "bunx biome check .",
     "clean": "find . -type d \\( -name node_modules -o -name dist -o -name .cache \\) -prune -exec rm -rf '{}' + && rm -rf .nx",
     "knip": "bunx knip",
-    "setup:demo": "bun run --cwd scripts setup-demo-project",
-    "dev:api": "bun run --cwd packages/api dev",
-    "dev:landing-page": "bun run --cwd clients/landing-page develop",
-    "storybook:ui": "bun run --cwd packages/ui storybook",
-    "studio:db": "bun run --cwd packages/db studio",
-    "dev:desktop": "bun run --cwd clients/desktop dev",
-    "report:e2e": "bun run --cwd packages/e2e report",
-    "storybook:dashboard": "bun run --cwd packages/pstdio-dashboard storybook",
-    "build-storybook:dashboard": "bun run --cwd packages/pstdio-dashboard build-storybook"
+    "report:e2e": "bun run --cwd e2e report"
   },
   "engines": {
     "bun": ">=1.3.10"
   },
   "workspaces": [
-    "clients/*",
-    "packages/*",
+    "e2e",
     "webapp"
   ],
   "devDependencies": {

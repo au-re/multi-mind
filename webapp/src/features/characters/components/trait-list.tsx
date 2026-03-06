@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import type { TraitConfig } from "@multi-mind/traits";
+import type { TraitConfig } from "@/features/traits";
 
 interface TraitListProps {
   traits: TraitConfig[];

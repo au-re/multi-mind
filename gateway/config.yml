@@ -22,3 +22,19 @@ binds:
                   name: openai
                   provider:
                     openAI: {}
+
+          - name: gemini-proxy
+            matches:
+              - path:
+                  pathPrefix: /gemini/v1
+            policies:
+              backendAuth:
+                key: "$GEMINI_API_KEY"
+              cors:
+                allowOrigins: ["*"]
+                allowHeaders: ["*"]
+            backends:
+              - ai:
+                  name: gemini
+                  provider:
+                    gemini: {}

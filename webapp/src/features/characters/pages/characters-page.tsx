@@ -2,6 +2,7 @@ import { Box, Button, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { useNavigate } from "@tanstack/react-router";
 import { useCharacterListStore } from "@/stores/character-list-store";
 import { CharacterCard } from "../components/character-card";
+import { randomName } from "../random-name";
 
 export const CharactersPage = () => {
   const characters = useCharacterListStore((s) => s.characters);
@@ -9,7 +10,7 @@ export const CharactersPage = () => {
   const navigate = useNavigate();
 
   const handleCreate = () => {
-    const id = createCharacter("New Character");
+    const id = createCharacter(randomName());
     navigate({ to: "/characters/$characterId/edit", params: { characterId: id } });
   };
 

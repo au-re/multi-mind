@@ -2,7 +2,7 @@
 
 ---
 
-🚨 **THIS REPO IS UNDER CONSTRUCTION.** 🚨
+THIS REPO IS UNDER CONSTRUCTION.
 
 - BACKWARDS COMPATIBILITY IS NOT NEEDED
 - BREAKING CHANGES ARE OK
@@ -16,7 +16,7 @@ This file answers two questions:
 1. **How this repo is organized**
 2. **How to write and verify code here**
 
-## PART 1 — REPO-SPECIFIC RULES
+## PART 1 — REPO STRUCTURE
 
 ### Repository Type
 
@@ -25,25 +25,48 @@ This file answers two questions:
 - **Nx caching**
 - **TypeScript only**
 
+### Directory Layout
+
+```
+multi-mind/
+  webapp/              # React SPA (Vite + React 19)
+  e2e/                 # Playwright E2E tests
+  gateway/             # API gateway (Docker + config)
+  deploy/              # Docker Compose deployment
+```
+
+### Workspaces
+
+| Package               | Path               | Description                |
+| --------------------- | ------------------ | -------------------------- |
+| `multi-mind-demo`     | `webapp/`          | React frontend (Vite)      |
+| `e2e`                 | `e2e/`             | Playwright E2E test suite  |
+
+### Tech Stack
+
+- **Runtime**: Bun
+- **Frontend**: React 19, Vite, Chakra UI, TanStack Router, TanStack Query, Zustand
+- **Testing**: Vitest (unit/integration), Playwright (E2E)
+- **Formatting**: Biome
+- **Build orchestration**: Lerna + Nx caching
+
 ### Repo Rules
 
 #### Tooling
 
-- ✅ Use **Bun**
-- ❌ Do not use `npm`, `yarn`, or `pnpm`
+- Use **Bun** — do not use `npm`, `yarn`, or `pnpm`
 
 #### Imports
 
-✅ Allowed:
+Allowed:
 
 ```ts
-import { foo } from "<workspace-package>";
+import { foo } from "@/features/traits";
 ```
 
-❌ Not allowed:
+Not allowed:
 
 - Deep relative imports across packages
-- Importing from `apps/*`
 - Imports anywhere except the top of the file
 
 ## PART 2 — CODING & TESTING RULES
@@ -158,6 +181,8 @@ Split content that will grow in separate files, e.g. Instead of placing all endp
 - Control time where needed
 - Bug fixes must add a regression test first
 - Visual-only UI/component changes must use Storybook stories instead of adding test files, add automated tests only when UI changes include non-visual behavior or logic changes
+- Unit/integration tests use **Vitest** (`vitest run`)
+- E2E tests use **Playwright** (`e2e/`)
 
 ### API Changes
 

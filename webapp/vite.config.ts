@@ -7,10 +7,7 @@ export default defineConfig(() => ({
   base: process.env.BASE_PATH ?? "/",
   server: {
     port: 5199,
-    proxy: {
-      "/v1": process.env.GATEWAY_URL ?? "http://localhost:3000",
-      "/healthz": process.env.GATEWAY_URL ?? "http://localhost:3000",
-    },
+    host: true,
   },
   resolve: {
     dedupe: [
