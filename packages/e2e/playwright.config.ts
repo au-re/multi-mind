@@ -1,6 +1,6 @@
 import { defineConfig } from "@playwright/test";
 
-const WEBAPP_URL = process.env.WEBAPP_URL ?? "http://localhost:5173";
+const WEBAPP_URL = process.env.WEBAPP_URL ?? "http://localhost:5199";
 
 export default defineConfig({
   testDir: "./tests",

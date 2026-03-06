@@ -29,3 +29,20 @@ jobs:
       - run: bun run build
 
       - run: bun run test
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install
+
+      - run: bunx playwright install --with-deps chromium
+
+      - run: cp deploy/.env.example deploy/.env
+
+      - run: bun run test:e2e

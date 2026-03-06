@@ -2,7 +2,7 @@ import { execSync } from "node:child_process";
 import { test as setup } from "@playwright/test";
 
 const COMPOSE_FILE = new URL("../../../deploy/docker-compose.yml", import.meta.url).pathname;
-const WEBAPP_URL = process.env.WEBAPP_URL ?? "http://localhost:5173";
+const WEBAPP_URL = process.env.WEBAPP_URL ?? "http://localhost:5199";
 
 async function waitForService(url: string, timeoutMs = 60_000) {
   const start = Date.now();
