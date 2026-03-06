@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json bun.lock ./
 COPY webapp/package.json ./webapp/package.json
 COPY packages/e2e/package.json ./packages/e2e/package.json
+COPY packages/traits/package.json ./packages/traits/package.json
 
 RUN bun install --frozen-lockfile
 

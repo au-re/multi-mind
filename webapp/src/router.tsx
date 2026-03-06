@@ -8,7 +8,9 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { Layout } from "@/components/layout";
-import { AgentPage } from "@/features/agent/pages/agent-page";
+import { CharacterEditPage } from "@/features/characters/pages/character-edit-page";
+import { CharacterPage } from "@/features/characters/pages/character-page";
+import { CharactersPage } from "@/features/characters/pages/characters-page";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -17,7 +19,25 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: AgentPage,
+  component: CharactersPage,
+});
+
+const charactersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "characters",
+  component: Outlet,
+});
+
+const characterRoute = createRoute({
+  getParentRoute: () => charactersRoute,
+  path: "$characterId",
+  component: CharacterPage,
+});
+
+const characterEditRoute = createRoute({
+  getParentRoute: () => charactersRoute,
+  path: "$characterId/edit",
+  component: CharacterEditPage,
 });
 
 const notFoundRoute = createRoute({
@@ -29,7 +49,11 @@ const notFoundRoute = createRoute({
   component: Outlet,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, notFoundRoute]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  charactersRoute.addChildren([characterRoute, characterEditRoute]),
+  notFoundRoute,
+]);
 
 const hashHistory = createHashHistory();
 

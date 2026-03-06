@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@multi-mind/traits": "workspace:*",
     "@chakra-ui/react": "3.32.0",
     "@emotion/react": "11.14.0",
     "@fontsource/inter": "^5.2.8",
@@ -20,7 +21,8 @@
     "@tanstack/react-router": "^1.140.1",
     "lucide-react": "^0.556.0",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
