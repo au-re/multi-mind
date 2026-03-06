@@ -21,5 +21,4 @@ binds:
               - ai:
                   name: openai
                   provider:
-                    openAI:
-                      model: "$OPENAI_MODEL"
+                    openAI: {}

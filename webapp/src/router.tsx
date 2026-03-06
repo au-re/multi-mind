@@ -1,6 +1,14 @@
-import { createRootRoute, createRoute, createRouter, Outlet, RouterProvider, redirect } from "@tanstack/react-router";
+import {
+  createHashHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Outlet,
+  RouterProvider,
+  redirect,
+} from "@tanstack/react-router";
 import { Layout } from "@/components/layout";
-import { HomePage } from "@/features/home/pages/home-page";
+import { AgentPage } from "@/features/agent/pages/agent-page";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -9,7 +17,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: HomePage,
+  component: AgentPage,
 });
 
 const notFoundRoute = createRoute({
@@ -23,8 +31,11 @@ const notFoundRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([indexRoute, notFoundRoute]);
 
+const hashHistory = createHashHistory();
+
 export const router = createRouter({
   routeTree,
+  history: hashHistory,
   defaultPreload: "intent",
 });
 

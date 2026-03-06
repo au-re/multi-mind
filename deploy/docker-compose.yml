@@ -4,7 +4,7 @@ services:
       context: ../gateway
       dockerfile: Dockerfile.gw
     ports:
-      - "3000:3000"
+      - "3737:3000"
       - "15000:15000"
       - "15020:15020"
       - "15021:15021"
@@ -15,9 +15,9 @@ services:
   webapp:
     build:
       context: ..
-      dockerfile: deploy/webapp.Dockerfile
+      dockerfile: webapp/Dockerfile
     ports:
-      - "5173:5173"
+      - "5199:5199"
     environment:
       - GATEWAY_URL=http://gateway:3000
     volumes:
