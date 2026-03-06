@@ -7,6 +7,7 @@ import { randomName } from "../random-name";
 export const CharactersPage = () => {
   const characters = useCharacterListStore((s) => s.characters);
   const createCharacter = useCharacterListStore((s) => s.createCharacter);
+  const deleteCharacter = useCharacterListStore((s) => s.deleteCharacter);
   const navigate = useNavigate();
 
   const handleCreate = () => {
@@ -31,7 +32,7 @@ export const CharactersPage = () => {
       ) : (
         <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
           {characters.map((c) => (
-            <CharacterCard key={c.id} character={c} />
+            <CharacterCard key={c.id} character={c} onDelete={deleteCharacter} />
           ))}
         </SimpleGrid>
       )}

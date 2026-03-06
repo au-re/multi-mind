@@ -8,6 +8,16 @@ export default defineConfig(() => ({
   server: {
     port: 5199,
     host: true,
+    proxy: {
+      "/openai": {
+        target: process.env.GATEWAY_URL ?? "http://localhost:3737",
+        changeOrigin: true,
+      },
+      "/gemini": {
+        target: process.env.GATEWAY_URL ?? "http://localhost:3737",
+        changeOrigin: true,
+      },
+    },
   },
   resolve: {
     dedupe: [

@@ -21,15 +21,15 @@ function trait(id: TraitConfig["id"], label: string, skill: number): TraitConfig
 }
 
 export const DEFAULT_TRAITS: TraitConfig[] = [
-  trait("integrity", "Integrity", 14),
-  trait("warmth", "Warmth", 11),
-  trait("tact", "Tact", 10),
-  trait("vigilance", "Vigilance", 13),
-  trait("heat", "Heat", 6),
-  trait("drive", "Drive", 15),
-  trait("structure", "Structure", 12),
-  trait("presence", "Presence", 9),
-  trait("inquiry", "Inquiry", 16),
+  trait("integrity", "Integrity", 0),
+  trait("warmth", "Warmth", 0),
+  trait("tact", "Tact", 0),
+  trait("vigilance", "Vigilance", 0),
+  trait("heat", "Heat", 0),
+  trait("drive", "Drive", 0),
+  trait("structure", "Structure", 0),
+  trait("presence", "Presence", 0),
+  trait("inquiry", "Inquiry", 0),
 ];
 
 export const DEFAULT_VOICE_PROFILE = {

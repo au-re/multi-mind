@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 
+vi.hoisted(() => {
+  globalThis.window = { location: { origin: "http://localhost:5199" }, confirm: () => true } as never;
+});
+
 vi.mock("@pstdio/kas", () => ({
   createKasAgent: vi.fn((opts: Record<string, unknown>) => {
     const fn = vi.fn();
@@ -19,16 +23,16 @@ import { createAgent } from "./use-agent";
 
 describe("createAgent", () => {
   it("creates OPFS tools with the given rootDir", () => {
-    createAgent({ model: "gpt-4o-mini", baseURL: "/openai/v1", rootDir: "/projects/demo" });
+    createAgent({ model: "gpt-4o-mini", baseURL: "http://localhost:5199/openai/v1", rootDir: "/projects/demo" });
     expect(createOpfsTools).toHaveBeenCalledWith(expect.objectContaining({ rootDir: "/projects/demo" }));
   });
 
   it("passes model, baseURL, and tools to createKasAgent", () => {
-    createAgent({ model: "gpt-4o-mini", baseURL: "/openai/v1", rootDir: "/projects/demo" });
+    createAgent({ model: "gpt-4o-mini", baseURL: "http://localhost:5199/openai/v1", rootDir: "/projects/demo" });
     expect(createKasAgent).toHaveBeenCalledWith(
       expect.objectContaining({
         model: "gpt-4o-mini",
-        baseURL: "/openai/v1",
+        baseURL: "http://localhost:5199/openai/v1",
         dangerouslyAllowBrowser: true,
       }),
     );

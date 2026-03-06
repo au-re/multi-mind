@@ -1,11 +1,11 @@
-import { Box, Button, Flex, Heading, Input } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Heading, Input } from "@chakra-ui/react";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useState } from "react";
 import type { TraitConfig, TraitId } from "@/features/traits";
 import { validateSkillBudget } from "@/features/traits";
 import { useCharacterListStore } from "@/stores/character-list-store";
 import { BudgetIndicator } from "../components/budget-indicator";
-import { TraitEditor } from "../components/trait-editor";
+import { SkillCard } from "../components/skill-card";
 
 export const CharacterEditPage = () => {
   const { characterId } = useParams({ strict: false }) as { characterId: string };
@@ -37,10 +37,18 @@ export const CharacterEditPage = () => {
   const { valid } = validateSkillBudget(traits);
 
   return (
-    <Box p="6" maxW="600px" mx="auto">
-      <Heading size="lg" mb="6">
-        Edit Character
-      </Heading>
+    <Box p="6" maxW="960px" mx="auto">
+      <Flex justifyContent="space-between" alignItems="center" mb="6">
+        <Heading size="lg">Edit Character</Heading>
+        <Flex gap="3">
+          <Button variant="ghost" onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button onClick={handleSave} disabled={!valid}>
+            Save
+          </Button>
+        </Flex>
+      </Flex>
 
       <Box mb="6">
         <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Character name" size="lg" />
@@ -51,16 +59,11 @@ export const CharacterEditPage = () => {
         <BudgetIndicator traits={traits} />
       </Flex>
 
-      <TraitEditor traits={traits} onChange={handleTraitChange} />
-
-      <Flex gap="3" mt="6" justifyContent="flex-end">
-        <Button variant="ghost" onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button onClick={handleSave} disabled={!valid}>
-          Save
-        </Button>
-      </Flex>
+      <Grid templateColumns="repeat(3, 1fr)" gap="4">
+        {traits.map((trait) => (
+          <SkillCard key={trait.id} trait={trait} onChange={handleTraitChange} />
+        ))}
+      </Grid>
     </Box>
   );
 };

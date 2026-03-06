@@ -1,14 +1,20 @@
 import { createApprovalGate, createKasAgent, type Tool } from "@pstdio/kas";
-import type { UIConversation } from "@pstdio/kas/kas-ui";
 import { toConversationUI } from "@pstdio/kas/kas-ui";
 import { createOpfsTools } from "@pstdio/kas/opfs-tools";
 import { useState } from "react";
+import { useConversationStore } from "@/stores/conversation-store";
 
 interface CreateAgentOptions {
   model: string;
   baseURL: string;
   rootDir: string;
 }
+
+export const DEFAULT_AGENT_CONFIG: CreateAgentOptions = {
+  model: "gpt-5.2",
+  baseURL: `${window.location.origin}/openai/v1`,
+  rootDir: "/projects/demo",
+};
 
 export function createAgent({ model, baseURL, rootDir }: CreateAgentOptions) {
   const opfsTools = createOpfsTools({
@@ -29,8 +35,9 @@ export function createAgent({ model, baseURL, rootDir }: CreateAgentOptions) {
   });
 }
 
-export function useAgent({ model, baseURL, rootDir }: CreateAgentOptions) {
-  const [messages, setMessages] = useState<UIConversation>([]);
+export function useAgent({ model, baseURL, rootDir }: CreateAgentOptions, conversationId: string) {
+  const messages = useConversationStore((s) => s.conversations[conversationId]?.messages ?? []);
+  const setMessages = useConversationStore((s) => s.setMessages);
   const [isRunning, setIsRunning] = useState(false);
 
   const agent = createAgent({ model, baseURL, rootDir });
@@ -48,7 +55,7 @@ export function useAgent({ model, baseURL, rootDir }: CreateAgentOptions) {
 
     try {
       for await (const conversation of toConversationUI(agent(userMessages))) {
-        setMessages(conversation);
+        setMessages(conversationId, conversation);
       }
     } finally {
       setIsRunning(false);

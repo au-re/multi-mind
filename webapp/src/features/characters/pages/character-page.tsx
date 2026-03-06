@@ -1,23 +1,34 @@
-import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate, useParams } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { ChatInput } from "@/features/agent/components/chat-input";
 import { MessageList } from "@/features/agent/components/message-list";
-import { useAgent } from "@/features/agent/hooks/use-agent";
+import { DEFAULT_AGENT_CONFIG, useAgent } from "@/features/agent/hooks/use-agent";
 import { useCharacterListStore } from "@/stores/character-list-store";
+import { useConversationStore } from "@/stores/conversation-store";
 import { MemoryPanel } from "../components/memory-panel";
 import { TraitList } from "../components/trait-list";
 
-const AGENT_CONFIG = {
-  model: "gpt-5.2",
-  baseURL: "/openai/v1",
-  rootDir: "/projects/demo",
-};
+function useCharacterConversation(characterId: string) {
+  const conversations = useConversationStore((s) => s.conversations);
+  const create = useConversationStore((s) => s.createConversation);
+
+  const existing = Object.values(conversations).find((c) => c.title === `character:${characterId}`);
+
+  useEffect(() => {
+    if (!existing) {
+      create(`character:${characterId}`);
+    }
+  }, [existing, create, characterId]);
+
+  return existing?.id ?? null;
+}
 
 export const CharacterPage = () => {
   const { characterId } = useParams({ strict: false }) as { characterId: string };
   const character = useCharacterListStore((s) => s.selectCharacterById(characterId));
   const navigate = useNavigate();
-  const { messages, isRunning, send } = useAgent(AGENT_CONFIG);
+  const conversationId = useCharacterConversation(characterId);
 
   if (!character) {
     navigate({ to: "/" });
@@ -31,6 +42,12 @@ export const CharacterPage = () => {
           <RouterLink to="/">← Back</RouterLink>
         </Link>
         <Heading size="md">{character.name}</Heading>
+        <Box flex="1" />
+        <Button asChild size="sm" variant="ghost">
+          <RouterLink to="/characters/$characterId/skills" params={{ characterId }}>
+            Skills
+          </RouterLink>
+        </Button>
       </Flex>
 
       <Flex flex="1" overflow="hidden">
@@ -39,10 +56,21 @@ export const CharacterPage = () => {
           <MemoryPanel />
         </Box>
         <Box flex="1" display="flex" flexDirection="column">
-          <MessageList messages={messages} />
-          <ChatInput onSend={send} disabled={isRunning} />
+          {conversationId ? <CharacterChat conversationId={conversationId} /> : null}
         </Box>
       </Flex>
     </Box>
+  );
+};
+
+const CharacterChat = (props: { conversationId: string }) => {
+  const { conversationId } = props;
+  const { messages, isRunning, send } = useAgent(DEFAULT_AGENT_CONFIG, conversationId);
+
+  return (
+    <>
+      <MessageList messages={messages} />
+      <ChatInput onSend={send} disabled={isRunning} />
+    </>
   );
 };

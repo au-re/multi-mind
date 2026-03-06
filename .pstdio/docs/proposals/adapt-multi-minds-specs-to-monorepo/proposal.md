@@ -1,6 +1,6 @@
 # Adapt Multi-Minds Specs to Monorepo
 
-**Status:** draft
+**Status:** accepted
 **Created:** 2026-03-06
 
 ## Summary

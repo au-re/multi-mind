@@ -4,10 +4,11 @@ import type { Character } from "@/stores/character-list-store";
 
 interface CharacterCardProps {
   character: Character;
+  onDelete: (id: string) => void;
 }
 
 export const CharacterCard = (props: CharacterCardProps) => {
-  const { character } = props;
+  const { character, onDelete } = props;
   const navigate = useNavigate();
 
   const topTraits = [...character.traits].sort((a, b) => b.skill - a.skill).slice(0, 4);
@@ -25,16 +26,29 @@ export const CharacterCard = (props: CharacterCardProps) => {
         <Text fontWeight="bold" fontSize="lg">
           {character.name}
         </Text>
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate({ to: "/characters/$characterId/edit", params: { characterId: character.id } });
-          }}
-        >
-          Edit
-        </Button>
+        <Flex gap="1">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate({ to: "/characters/$characterId/edit", params: { characterId: character.id } });
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            colorPalette="red"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(character.id);
+            }}
+          >
+            Delete
+          </Button>
+        </Flex>
       </Flex>
       <Flex gap="2" flexWrap="wrap">
         {topTraits.map((t) => (

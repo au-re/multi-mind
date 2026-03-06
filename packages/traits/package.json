@@ -1,0 +1,21 @@
+{
+  "name": "@multi-mind/traits",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "bunx tsc -b",
+    "lint": "bun run typecheck && bunx biome check .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@multi-mind/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.15"
+  }
+}

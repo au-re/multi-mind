@@ -10,6 +10,7 @@ import {
 import { Layout } from "@/components/layout";
 import { CharacterEditPage } from "@/features/characters/pages/character-edit-page";
 import { CharacterPage } from "@/features/characters/pages/character-page";
+import { CharacterSkillsPage } from "@/features/characters/pages/character-skills-page";
 import { CharactersPage } from "@/features/characters/pages/characters-page";
 
 const rootRoute = createRootRoute({
@@ -34,6 +35,12 @@ const characterRoute = createRoute({
   component: CharacterPage,
 });
 
+const characterSkillsRoute = createRoute({
+  getParentRoute: () => charactersRoute,
+  path: "$characterId/skills",
+  component: CharacterSkillsPage,
+});
+
 const characterEditRoute = createRoute({
   getParentRoute: () => charactersRoute,
   path: "$characterId/edit",
@@ -51,7 +58,7 @@ const notFoundRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  charactersRoute.addChildren([characterRoute, characterEditRoute]),
+  charactersRoute.addChildren([characterRoute, characterSkillsRoute, characterEditRoute]),
   notFoundRoute,
 ]);
 

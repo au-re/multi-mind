@@ -26,6 +26,11 @@
   },
   "workspaces": [
     "e2e",
+    "packages/shared",
+    "packages/traits",
+    "packages/blackboard",
+    "packages/engine",
+    "packages/memory",
     "webapp"
   ],
   "devDependencies": {

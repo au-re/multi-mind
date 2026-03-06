@@ -5,21 +5,21 @@ import { clampSkill, validateSkillBudget } from "./validation";
 describe("validateSkillBudget", () => {
   it("validates default traits as within budget", () => {
     const result = validateSkillBudget(DEFAULT_TRAITS);
-    expect(result.total).toBe(106);
+    expect(result.total).toBe(0);
     expect(result.valid).toBe(true);
   });
 
-  it("rejects traits below minimum budget", () => {
-    const lowTraits = DEFAULT_TRAITS.map((t) => ({ ...t, skill: 5 }));
-    const result = validateSkillBudget(lowTraits);
-    expect(result.total).toBe(45);
-    expect(result.valid).toBe(false);
+  it("accepts traits at maximum budget", () => {
+    const traits = DEFAULT_TRAITS.map((t, i) => ({ ...t, skill: i < 2 ? 10 : 0 }));
+    const result = validateSkillBudget(traits);
+    expect(result.total).toBe(20);
+    expect(result.valid).toBe(true);
   });
 
   it("rejects traits above maximum budget", () => {
-    const highTraits = DEFAULT_TRAITS.map((t) => ({ ...t, skill: 20 }));
+    const highTraits = DEFAULT_TRAITS.map((t) => ({ ...t, skill: 5 }));
     const result = validateSkillBudget(highTraits);
-    expect(result.total).toBe(180);
+    expect(result.total).toBe(45);
     expect(result.valid).toBe(false);
   });
 });
@@ -29,8 +29,8 @@ describe("clampSkill", () => {
     expect(clampSkill(-5)).toBe(0);
   });
 
-  it("allows values above 20", () => {
-    expect(clampSkill(25)).toBe(25);
+  it("clamps above maximum to 20", () => {
+    expect(clampSkill(25)).toBe(20);
   });
 
   it("passes through valid values", () => {

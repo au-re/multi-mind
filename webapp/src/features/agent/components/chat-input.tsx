@@ -1,6 +1,8 @@
-import { Box, IconButton, Textarea } from "@chakra-ui/react";
-import { SendHorizonal } from "lucide-react";
+import { Box } from "@chakra-ui/react";
+import { createSerializedPromptState, ChatInput as PstdioChatInput } from "@pstdio/ui/chat-ui";
 import { useState } from "react";
+
+const EMPTY_STATE = createSerializedPromptState();
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -9,42 +11,22 @@ interface ChatInputProps {
 
 export const ChatInput = (props: ChatInputProps) => {
   const { onSend, disabled } = props;
-  const [value, setValue] = useState("");
+  const [key, setKey] = useState(0);
 
-  const handleSubmit = () => {
-    const trimmed = value.trim();
-    if (!trimmed || disabled) return;
-    onSend(trimmed);
-    setValue("");
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit();
-    }
+  const handleSubmit = (text: string) => {
+    onSend(text);
+    setKey((k) => k + 1);
   };
 
   return (
-    <Box display="flex" gap="2" p="4" borderTop="1px solid" borderColor="border.muted">
-      <Textarea
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKeyDown}
+    <Box px="sm" pb="sm" w="full">
+      <PstdioChatInput
+        key={key}
+        defaultState={EMPTY_STATE}
         placeholder="Type a message..."
-        disabled={disabled}
-        resize="none"
-        rows={1}
-        flex="1"
+        onSubmit={handleSubmit}
+        isDisabled={disabled}
       />
-      <IconButton
-        aria-label="Send message"
-        onClick={handleSubmit}
-        disabled={disabled || !value.trim()}
-        alignSelf="flex-end"
-      >
-        <SendHorizonal />
-      </IconButton>
     </Box>
   );
 };

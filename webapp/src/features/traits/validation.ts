@@ -8,5 +8,5 @@ export function validateSkillBudget(traits: TraitConfig[]) {
 }
 
 export function clampSkill(skill: number) {
-  return Math.max(TRAIT_CONSTRAINTS.skillMin, skill);
+  return Math.min(TRAIT_CONSTRAINTS.skillMax, Math.max(TRAIT_CONSTRAINTS.skillMin, skill));
 }

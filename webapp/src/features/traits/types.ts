@@ -43,9 +43,10 @@ export interface CharacterVoiceProfile {
 
 export const TRAIT_CONSTRAINTS = {
   skillMin: 0,
+  skillMax: 20,
   biasMin: -2,
   biasMax: 2,
-  totalSkillBudgetMin: 90,
-  totalSkillBudgetMax: 110,
+  totalSkillBudgetMin: 0,
+  totalSkillBudgetMax: 20,
   traitCount: 9,
 } as const;
